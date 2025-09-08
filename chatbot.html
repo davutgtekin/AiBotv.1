@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="chat.js" defer></script>
+    <!-- defer → JS'i HTML yüklenince çalıştırır, böylece sendMessage bulunur -->
+</head>
+<body>
+
+<h1>Chatbot v.01</h1>
+
+<!-- Chat kutusu -->
+<div class="chat-box">
+    <div class="message bot">Merhaba! Ben buradayım.</div>
+    <div class="message user">Merhaba Chatbot!</div>
+    <div class="message bot">Nasılsın?</div>
+</div>
+
+<!-- Input ve buton -->
+<div class="input-container">
+    <input type="text" id="userInput" placeholder="Mesajınızı yazın...">
+    <button type="button" onclick="sendMessage()">Gönder</button>
+</div>
+
+</body>
+</html>
