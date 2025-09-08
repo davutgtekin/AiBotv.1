@@ -41,6 +41,12 @@ function sendMessage() {
 }
 // 1️⃣ Input elementini seçiyoruz
 const input = document.getElementById("userInput");
-
+// 2️⃣ Klavye tuşlarını dinliyoruz
+input.addEventListener("keypress", function(event) {
+    // 3️⃣ Eğer basılan tuş Enter ise
+    if (event.key === "Enter") {
+        sendMessage(); // Kullanıcının mesajını gönder
+    }
+});
 
 
