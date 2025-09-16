@@ -1,52 +1,67 @@
-// Mesaj balonunu chat-box'a ekleyen fonksiyon
+// ----------------------
+// 1️⃣ Mesaj balonunu chat-box'a ekleyen fonksiyon
+// ----------------------
 function addMessage(text, sender) {
-    // chat-box elementini seçiyoruz ve chatBox değişkenine atıyoruz
-    // const → sabit değişken, değeri değiştirilemez ama nesnenin içi değiştirilebilir
-    const chatBox = document.querySelector(".chat-box"); 
-
-    // Yeni bir <div> elementi oluşturuyoruz ve msg değişkenine atıyoruz
-    // msg bir nesne, yani DOM elementini temsil eder
-    const msg = document.createElement("div");           
-
-    // Mesaj div'ine CSS class ekliyoruz: 'message' ve 'user' veya 'bot'
-    msg.classList.add("message", sender);               
-
-    // Mesajın içeriğini div'e ekliyoruz
-    msg.textContent = text;                              
-
-    // Mesaj div'ini chat-box içine ekliyoruz
-    chatBox.appendChild(msg);                            
-
-    // Chat-box otomatik olarak en alta kaydırıyor
-    chatBox.scrollTop = chatBox.scrollHeight;           
+    const chatBox = document.querySelector(".chat-box"); // chat-box elementini al
+    const msg = document.createElement("div");           // yeni div oluştur
+    msg.classList.add("message", sender);               // user veya bot class ekle
+    msg.textContent = text;                              // mesaj içeriğini ekle
+    chatBox.appendChild(msg);                            // chat-box içine ekle
+    chatBox.scrollTop = chatBox.scrollHeight;           // en alta kaydır
 }
 
-//  Gönder butonuna tıklanınca çalışacak fonksiyon
-function sendMessage() {
-    // Kullanıcının yazdığı input kutusunu seçiyoruz ve input değişkenine atıyoruz
-    // const → input artık sabit, ama value gibi özelliklerini değiştirebiliriz
+// ----------------------
+// 2️⃣ Basit kural tabanlı bot mantığı
+// ----------------------
+function botReply(userText) {
+    const text = userText.toLowerCase().trim(); 
+    let reply = "";
+
+    if (text.includes("merhaba")) {
+        reply = "Merhaba! Nasılsın?";
+        addMessage(reply, "bot"); 
+        // ❌ Burada seçenek eklemiyoruz, kullanıcıdan cevap bekliyoruz
+    } 
+    else if (text.includes("nasılsın")) {
+        reply = "İyiyim, Nasıl Yardımcı olabilirim?";
+        addMessage(reply, "bot");
+
+        // ✅ Menü seçenekleri sadece buradan sonra ekleniyor
+        const options = ["şifre", "stok", "hesap"];
+        options.forEach(option => {
+            const btn = document.createElement("button");
+            btn.textContent = option;
+            btn.onclick = () => sendMessage(option); 
+            document.querySelector(".chat-box").appendChild(btn);
+        });
+    } 
+    else {
+        reply = "Bunu anlayamadım 🤔";
+        addMessage(reply, "bot");
+    }
+}
+
+// ----------------------
+// 3️⃣ Kullanıcının mesajını gönderme fonksiyonu
+// ----------------------
+function sendMessage(inputText = null) {
     const input = document.getElementById("userInput"); 
+    const text = inputText ? inputText : input.value.trim(); // eğer butondan geldi ise onu al
 
-    // Input değerini alıp baş/son boşlukları siliyoruz ve text değişkenine atıyoruz
-    const text = input.value.trim();                    
+    if(text === "") return; // boş mesaj varsa dur
 
-    // Eğer kullanıcı boş mesaj gönderiyorsa fonksiyonu durdur
-    if(text === "") return;                             
+    addMessage(text, "user"); // kullanıcı mesajını ekle
+    input.value = "";         // inputu temizle
 
-    // Kullanıcı mesajını chat-box'a ekliyoruz
-    addMessage(text, "user");                           
-
-    // Input kutusunu temizliyoruz
-    input.value = "";                                   
+    botReply(text);           // bot cevabını ekle
 }
-// 1️⃣ Input elementini seçiyoruz
+
+// ----------------------
+// 4️⃣ Enter tuşunu dinleme
+// ----------------------
 const input = document.getElementById("userInput");
-// 2️⃣ Klavye tuşlarını dinliyoruz
 input.addEventListener("keypress", function(event) {
-    // 3️⃣ Eğer basılan tuş Enter ise
     if (event.key === "Enter") {
-        sendMessage(); // Kullanıcının mesajını gönder
+        sendMessage(); // inputtaki mesajı gönder
     }
 });
-
-
