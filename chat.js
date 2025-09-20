@@ -1,3 +1,6 @@
+
+const socket = io("http://localhost:3000"); // backend'e bağlan
+
 // ----------------------
 // 1️⃣ Mesaj balonunu chat-box'a ekleyen fonksiyon
 // ----------------------
