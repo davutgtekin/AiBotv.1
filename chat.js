@@ -1,70 +1,40 @@
-
-const socket = io("http://localhost:3000"); // backend'e bağlan
-
-// ----------------------
-// 1️⃣ Mesaj balonunu chat-box'a ekleyen fonksiyon
-// ----------------------
+// Mesaj balonunu chat-box'a ekleyen fonksiyon
 function addMessage(text, sender) {
     const chatBox = document.querySelector(".chat-box"); // chat-box elementini al
-    const msg = document.createElement("div");           // yeni div oluştur
-    msg.classList.add("message", sender);               // user veya bot class ekle
-    msg.textContent = text;                              // mesaj içeriğini ekle
-    chatBox.appendChild(msg);                            // chat-box içine ekle
-    chatBox.scrollTop = chatBox.scrollHeight;           // en alta kaydır
+    const msg = document.createElement("div");           // Yeni bir div oluştur
+    msg.classList.add("message", sender);                // CSS class ekle (user/bot)
+    msg.textContent = text;                              // Mesajı ekle
+    chatBox.appendChild(msg);                            // Chat-box'a ekle
+    chatBox.scrollTop = chatBox.scrollHeight;            // En alta kaydır
 }
 
-// ----------------------
-// 2️⃣ Basit kural tabanlı bot mantığı
-// ----------------------
-function botReply(userText) {
-    const text = userText.toLowerCase().trim(); 
-    let reply = "";
+// Gönder butonuna tıklandığında çalışacak fonksiyon
+async function sendMessage() {
+    const input = document.getElementById("userInput"); // Input al
+    const text = input.value.trim();                    // Boşlukları temizle
 
-    if (text.includes("merhaba")) {
-        reply = "Merhaba! Nasılsın?";
-        addMessage(reply, "bot"); 
-        // ❌ Burada seçenek eklemiyoruz, kullanıcıdan cevap bekliyoruz
-    } 
-    else if (text.includes("nasılsın")) {
-        reply = "İyiyim, Nasıl Yardımcı olabilirim?";
-        addMessage(reply, "bot");
+    if (text === "") return;                            // Boş mesaj engelle
 
-        // ✅ Menü seçenekleri sadece buradan sonra ekleniyor
-        const options = ["şifre", "stok", "hesap"];
-        options.forEach(option => {
-            const btn = document.createElement("button");
-            btn.textContent = option;
-            btn.onclick = () => sendMessage(option); 
-            document.querySelector(".chat-box").appendChild(btn);
+    addMessage(text, "user");                           // Kullanıcı mesajını ekle
+    input.value = "";                                   // Input temizle
+
+    try {
+        // Backend’e istek atıyoruz
+        const response = await fetch("http://localhost:5000/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: text })
         });
-    } 
-    else {
-        reply = "Bunu anlayamadım 🤔";
-        addMessage(reply, "bot");
+
+        const data = await response.json();
+
+        // Backend’den gelen cevabı bot olarak ekle
+        addMessage(data.reply, "bot");
+
+    } catch (error) {
+        console.error("Hata:", error);
+        addMessage("Üzgünüm, şu anda cevap veremiyorum ❌", "bot");
     }
 }
-
-// ----------------------
-// 3️⃣ Kullanıcının mesajını gönderme fonksiyonu
-// ----------------------
-function sendMessage(inputText = null) {
-    const input = document.getElementById("userInput"); 
-    const text = inputText ? inputText : input.value.trim(); // eğer butondan geldi ise onu al
-
-    if(text === "") return; // boş mesaj varsa dur
-
-    addMessage(text, "user"); // kullanıcı mesajını ekle
-    input.value = "";         // inputu temizle
-
-    botReply(text);           // bot cevabını ekle
-}
-
-// ----------------------
-// 4️⃣ Enter tuşunu dinleme
-// ----------------------
-const input = document.getElementById("userInput");
-input.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        sendMessage(); // inputtaki mesajı gönder
-    }
-});
