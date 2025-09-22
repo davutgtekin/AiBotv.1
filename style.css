@@ -94,7 +94,7 @@ button {
 .message.bot.thinking {
   display: flex;
   align-items: center;
-  padding: 10px 12px; /* Noktaların daha iyi görünmesi için padding'i ayarlıyoruz */
+  padding: 10px 12px; 
 }
 
 /* Animasyonu oluşturacak her bir nokta için stil */

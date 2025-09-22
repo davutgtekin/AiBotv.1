@@ -28,7 +28,7 @@ async function sendMessage() {
     thinkingMessage.classList.add("message", "bot", "thinking");
     thinkingMessage.innerHTML = `<span></span><span></span><span></span>`;
     chatBox.appendChild(thinkingMessage);
-    chatBox.scrollTop = chatBox.scrollHeight; // Ekranda görünmesi için en alta kaydır
+    chatBox.scrollTop = chatBox.scrollHeight; 
 
     try {
         const response = await fetch("http://localhost:5000/chat", {
