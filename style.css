@@ -86,6 +86,53 @@ button {
             transform: translateY(0px);
             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
         }
+/* ======================================== */
+/* Düşünme (Yükleme) Animasyonu Stilleri    */
+/* ======================================== */
 
+/* Animasyonlu mesaj balonu için genel stil */
+.message.bot.thinking {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px; /* Noktaların daha iyi görünmesi için padding'i ayarlıyoruz */
+}
+
+/* Animasyonu oluşturacak her bir nokta için stil */
+.message.bot.thinking span {
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: #909090;
+  border-radius: 50%;
+  display: inline-block;
+  
+  /* Animasyonun kendisini burada bağlıyoruz */
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+/* Dalga efekti için her bir noktaya farklı bir gecikme veriyoruz */
+.message.bot.thinking span:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.message.bot.thinking span:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+
+/* Yanıp sönme animasyonunun kendisi (@keyframes) */
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
 
 

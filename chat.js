@@ -11,17 +11,26 @@ function addMessage(text, sender) {
 }
 
 // Gönder butonuna tıklandığında veya Enter'a basıldığında çalışacak fonksiyon
+// chat.js - YENİ VE GELİŞTİRİLMİŞ sendMessage FONKSİYONU
+
 async function sendMessage() {
-    const input = document.getElementById("userInput"); // Input elementini al
-    const text = input.value.trim();                    // Başındaki ve sonundaki boşlukları temizle
+    const input = document.getElementById("userInput");
+    const text = input.value.trim();
 
-    if (text === "") return;                            // Boş mesaj gönderilmesini engelle
+    if (text === "") return;
 
-    addMessage(text, "user");                           // Kullanıcının mesajını ekrana ekle
-    input.value = "";                                   // Input kutusunu temizle
+    addMessage(text, "user");
+    input.value = "";
+
+    // YENİ: Düşünme animasyonunu oluştur ve ekrana ekle
+    const chatBox = document.querySelector(".chat-box");
+    const thinkingMessage = document.createElement("div");
+    thinkingMessage.classList.add("message", "bot", "thinking");
+    thinkingMessage.innerHTML = `<span></span><span></span><span></span>`;
+    chatBox.appendChild(thinkingMessage);
+    chatBox.scrollTop = chatBox.scrollHeight; // Ekranda görünmesi için en alta kaydır
 
     try {
-        // Backend sunucumuza istek atıyoruz
         const response = await fetch("http://localhost:5000/chat", {
             method: "POST",
             headers: {
@@ -30,20 +39,20 @@ async function sendMessage() {
             body: JSON.stringify({ message: text })
         });
 
-        // Eğer sunucudan cevap gelmezse veya bir hata olursa
         if (!response.ok) {
             throw new Error("Sunucudan geçerli bir cevap alınamadı.");
         }
 
         const data = await response.json();
-
-        // Backend’den gelen cevabı bot mesajı olarak ekrana ekle
         addMessage(data.reply, "bot");
 
     } catch (error) {
         console.error("Hata:", error);
-        // Kullanıcıya bir sorun olduğunu bildiren bir mesaj göster
         addMessage("Üzgünüm, şu anda cevap veremiyorum ❌", "bot");
+    } finally {
+        // YENİ: İstek başarılı da olsa, hata da verse, "her zaman" çalışacak olan blok.
+        // Düşünme animasyonunu ekrandan kaldırır.
+        thinkingMessage.remove();
     }
 }
 
