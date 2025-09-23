@@ -1,103 +1,23 @@
-.chat-container {
-    width: 400px;
-    height: 500px;
-    border: 2px solid #333;
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    
-}
+/* SADECE BUNLAR KALDI! */
 
-/* Chat kutusu */
-.chat-box {
-    display: flex;
-    flex-direction: column;   /* Mesajlar üstten alta */
-    flex-grow: 1;             /* Container içini doldur */
-    overflow-y: auto;         /* Mesaj çoksa kaydır */
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    border: 3px solid #020202;
-}
-
-/* Ortak mesaj stili */
+/* Ortak mesaj stili: Bootstrap'in doğrudan sunmadığı bir kural olduğu için bunu tutuyoruz. */
 .message {
-    padding: 8px;
-    margin: 5px;
-    border-radius: 12px;
     max-width: 70%;
+    overflow-wrap: break-word; /* 'word-wrap' yerine modern versiyonunu kullandık. */
 }
 
-/* Kullanıcı mesajı (sağ) */
-.message.user {
-    background: #007bff;
-    color: white;
-    align-self: flex-end;     /* Sağ tarafa yasla */
-}
-
-/* Bot mesajı (sol) */
-.message.bot {
-    background: #e0e0e0;
-    color: black;
-    align-self: flex-start;   /* Sol tarafa yasla */
-}
-
-/* Input ve butonun bulunduğu container */
-.input-container {
-    display: flex;           /* Input ve buton yan yana dursun */
-    margin-top: 10px;        /* Chat kutusundan biraz boşluk bırak */
-    
-    
-}
-
-/* Kullanıcı mesaj yazma kutusu */
-#userInput {
-    flex-grow: 1;            /* Input kutusu butondan daha geniş olsun */
-    padding: 8px;            /* İç boşluk, yazı kutuya yakın durur */
-    border-radius: 5px;      /* Köşeleri yuvarlatır, modern görünüm */
-    border: 1px solid #ccc;  /* Hafif gri kenarlık */
-    font-size: 16px;         /* Yazı boyutu okunaklı olsun */
-}
-
-/* Gönder butonu */
-/* Gönder butonu */
-button {
-            padding: 10px 16px;
-            margin-left: 5px;
-            border-radius: 8px;
-            border: 1px solid #0056b3;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-        }
-
-        button:active {
-            transform: translateY(0px);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-        }
 /* ======================================== */
 /* Düşünme (Yükleme) Animasyonu Stilleri    */
 /* ======================================== */
 
-/* Animasyonlu mesaj balonu için genel stil */
+/* Bu animasyon tamamen bize özel olduğu için olduğu gibi kalıyor. */
+
 .message.bot.thinking {
   display: flex;
   align-items: center;
   padding: 10px 12px; 
 }
 
-/* Animasyonu oluşturacak her bir nokta için stil */
 .message.bot.thinking span {
   height: 8px;
   width: 8px;
@@ -106,14 +26,12 @@ button {
   border-radius: 50%;
   display: inline-block;
   
-  /* Animasyonun kendisini burada bağlıyoruz */
   animation-name: blink;
   animation-duration: 1.4s;
   animation-iteration-count: infinite;
   animation-fill-mode: both;
 }
 
-/* Dalga efekti için her bir noktaya farklı bir gecikme veriyoruz */
 .message.bot.thinking span:nth-of-type(2) {
   animation-delay: 0.2s;
 }
@@ -122,17 +40,8 @@ button {
   animation-delay: 0.4s;
 }
 
-/* Yanıp sönme animasyonunun kendisi (@keyframes) */
 @keyframes blink {
-  0% {
-    opacity: 0.2;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.2;
-  }
+  0% { opacity: 0.2; }
+  20% { opacity: 1; }
+  100% { opacity: 0.2; }
 }
-
-

@@ -2,26 +2,45 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobil uyumluluk için bu satır önemli! -->
     <title>Chatbot</title>
+    <!-- Bootstrap CSS dosyası -->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Kendi özel stil dosyamız -->
     <link rel="stylesheet" href="style.css">
-    <script src="chat.js" defer></script>
-    <!-- defer → JS'i HTML yüklenince çalıştırır, böylece sendMessage bulunur -->
 </head>
-<body>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
 
-<h1>AiBot v.1.0.0</h1>
+<!-- Ana Konteyner: Tüm sohbet uygulamasını sarar ve ortalar -->
+<div class="container" style="max-width: 500px;">
 
-<!-- Chat kutusu -->
-<div class="chat-box">
-    <div class="message bot">Merhaba Ai Bot ekranına HoşGeldiniz</div>
-    
+    <h1 class="text-center mb-3">AiBot v.1.0.0</h1>
+
+    <!-- Chat kutusu: Bootstrap'in card bileşenini kullanıyoruz. -->
+    <!-- Eski .chat-container ve .chat-box sınıflarının tüm işini bu tek div yapıyor -->
+    <div class="card">
+        <div id="chat-box-body" class="card-body" style="height: 60vh; overflow-y: auto;">
+            <!-- Mesajlar buraya JavaScript ile eklenecek -->
+            <div class="d-flex justify-content-start mb-2">
+                <div class="message bot p-2 rounded" style="background-color: #e9ecef;">
+                    Merhaba Ai Bot ekranına HoşGeldiniz
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input ve buton: Bootstrap'in input-group bileşeni -->
+    <!-- Eski .input-container sınıfına artık hiç gerek yok -->
+    <div class="input-group mt-3">
+        <input type="text" id="userInput" class="form-control" placeholder="Mesajınızı yazın...">
+        <button type="button" class="btn btn-primary" onclick="sendMessage()">Gönder</button>
+    </div>
+
 </div>
 
-<!-- Input ve buton -->
-<div class="input-container">
-    <input type="text" id="userInput" placeholder="Mesajınızı yazın...">
-    <button type="button" onclick="sendMessage()">Gönder</button>
-</div>
-
+<!-- Bootstrap'in JavaScript dosyası (Açılır menüler, toollar vb. için) -->
+<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Kendi JavaScript dosyamız -->
+<script src="chat.js" defer></script>
 </body>
 </html>
