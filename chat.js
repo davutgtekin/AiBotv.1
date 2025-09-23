@@ -6,11 +6,24 @@ function addMessage(text, sender) {
     const chatBox = document.querySelector(".chat-box");
     const msg = document.createElement("div");
     msg.classList.add("message", sender);
-    msg.textContent = text;
     chatBox.appendChild(msg);
     chatBox.scrollTop = chatBox.scrollHeight;
-    return msg; // Bot mesajını daha sonra güncelleyebilmek için bu elementi saklıyoruz.
+
+    const words = text.split(" "); // Metni kelimelere ayır
+    let index = 0;
+
+    const interval = setInterval(() => {
+        if (index < words.length) {
+            // Her seferinde bir kelime ekle
+            msg.textContent += (index > 0 ? " " : "") + words[index];
+            chatBox.scrollTop = chatBox.scrollHeight;
+            index++;
+        } else {
+            clearInterval(interval); // Bittiğinde durdur
+        }
+    }, 500); // 0.5 saniye
 }
+
 
 // 2. Ana gönderme fonksiyonumuz. Artık 'async' değil, çünkü cevabı beklemiyor.
 function sendMessage() {
