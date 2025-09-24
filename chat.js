@@ -42,7 +42,7 @@ function addStaticMessage(text, sender) {
  * Ekrana, sizin istediğiniz 'setInterval' ile kelime kelime yazılan bir bot mesajı ekler.
  * @param {string} text - Animasyonla yazılacak metin.
  */
-function addAnimatedMessage(text) {
+function addAnimatedMessage(text, onCompleteCallback) {
     const chatBoxBody = document.getElementById("chat-box-body");
 
     const messageWrapper = document.createElement("div");
@@ -60,6 +60,9 @@ function addAnimatedMessage(text) {
     let index = 0;
 
     const interval = setInterval(() => {
+        if (onCompleteCallback) {
+          onCompleteCallback();
+        }
         if (index < words.length) {
             msg.textContent += (index > 0 ? " " : "") + words[index];
             chatBoxBody.scrollTop = chatBoxBody.scrollHeight;
@@ -68,6 +71,7 @@ function addAnimatedMessage(text) {
             clearInterval(interval);
         }
     }, 200); // Yazma hızı (milisaniye)
+    
 }
 
 
@@ -80,6 +84,11 @@ async function sendMessage() {
     const input = document.getElementById("userInput");
     const text = input.value.trim();
     if (text === "") return;
+    const sendButton = document.querySelector(".btn-primary");
+
+    if (sendButton.disabled) return; // Buton zaten kilitliyse yeni istek gönderme
+
+    sendButton.disabled = true;
 
     // 1. Kullanıcı mesajını ekle
     addStaticMessage(text, "user");
@@ -109,7 +118,9 @@ async function sendMessage() {
         thinkingMessageWrapper.remove();
         
         // 5. Bot'un cevabını animasyonlu olarak ekle
-        addAnimatedMessage(data.reply);
+        addAnimatedMessage(data.reply, () => {
+         sendButton.disabled = false;
+        });
 
     } catch (error) {
         console.error("Hata:", error);
@@ -119,6 +130,7 @@ async function sendMessage() {
         
         // Hata mesajını ekle
         addStaticMessage("Üzgünüm, bir sorun oluştu ❌", "bot");
+        sendButton.disabled = false;
     }
 }
 
