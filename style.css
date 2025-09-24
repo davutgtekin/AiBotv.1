@@ -1,5 +1,103 @@
-/* SADECE BUNLAR KALDI! */
+body {
+    background-image: url('arkaplan-resminiz.png'); /* Kendi resminizin adını yazın */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 
+    /* ======================================== */
+/* Glassmorphism Ana Konteyneri             */
+/* ======================================== */
+
+.glass-card {
+  /* Sizin verdiğiniz koddan gelen stiller */
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px); /* Safari uyumluluğu */
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0px 0px rgba(255, 255, 255, 0);
+  position: relative; /* Parlama efektlerinin doğru konumlanması için şart */
+  overflow: hidden;
+  width: 90%;
+  max-width: 550px;
+  padding: 30px; 
+}
+
+/* ======================================== */
+/* Glassmorphism Kenar Parlama Efektleri    */
+/* ======================================== */
+
+/* Üst kenara yatay parlama ekler */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+/* Sol kenara dikey parlama ekler */
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+/* ======================================== */
+/* Glassmorphism İçerik Entegrasyonu      */
+/* ======================================== */
+
+/* 1. İçerideki beyaz Bootstrap kartını şeffaf yapıyoruz */
+.glass-card .card {
+  background: transparent;
+  border: none;
+}
+
+/* 2. Başlık rengini okunabilir hale getiriyoruz */
+.glass-card h1 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Okunurluk için gölge */
+}
+
+/* 3. Mesajların yazıldığı alanı hafifçe ayırıyoruz (isteğe bağlı ama şık) */
+.glass-card #chat-box-body {
+  background: rgba(0, 0, 0, 0.2); /* Çok hafif koyu ve şeffaf bir arka plan */
+  border-radius: 10px;
+}
+
+/* 4. Input alanını tasarıma uygun hale getiriyoruz */
+.glass-card #userInput {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white; /* Input'a yazdığımız yazının rengi beyaz olacak */
+}
+
+/* 5. Input'un içindeki placeholder yazısının rengini ayarlıyoruz */
+.glass-card #userInput::placeholder {
+  color: #ccc; /* Placeholder'ı daha soft bir renk yapıyoruz */
+}
+}
 /* Ortak mesaj stili: Bootstrap'in doğrudan sunmadığı bir kural olduğu için bunu tutuyoruz. */
 .message {
     max-width: 70%;
@@ -45,3 +143,5 @@
   20% { opacity: 1; }
   100% { opacity: 0.2; }
 }
+
+
